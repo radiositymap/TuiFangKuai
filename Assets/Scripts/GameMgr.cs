@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class GameMgr : MonoBehaviour
 {
+    public CubeController player;
+    public GameObject mainMenu;
+    public GameObject winScreen;
+
     int boardSize = 10;
     LevelLoader levelLoader;
 
     void Start() {
         levelLoader = GameObject.FindObjectOfType<LevelLoader>();
+        player.OnGoalReached += OnGoalReached;
     }
 
     public void LoadRandomLevel() {
@@ -32,6 +37,15 @@ public class GameMgr : MonoBehaviour
             state.treePos.Add(GetRandUniqueVec2(1, boardSize-1, occupiedPos));
 
         return state;
+    }
+
+    void OnGoalReached() {
+        StartCoroutine(ShowWinScreen());
+    }
+
+    IEnumerator ShowWinScreen() {
+        yield return new WaitForSeconds(1.0f);
+        winScreen.SetActive(true);
     }
 
     Vector2 GetRandUniqueVec2(float from, float to, List<Vector2> usedVecs) {

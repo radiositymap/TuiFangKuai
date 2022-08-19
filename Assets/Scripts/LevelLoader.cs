@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelLoader : MonoBehaviour
 {
+    // TODO move these out to Resources
     public GameObject self;
     public GameObject goal;
     public GameObject tree;

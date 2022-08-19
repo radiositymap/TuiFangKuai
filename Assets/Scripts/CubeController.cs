@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CubeController : MonoBehaviour
 {
     public float force = 3f;
+    public Action OnGoalReached;
     Rigidbody rbd;
     ParticleSystem explosion;
 
@@ -14,7 +16,6 @@ public class CubeController : MonoBehaviour
         explosion = GetComponentInChildren<ParticleSystem>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (rbd.velocity != Vector3.zero)
@@ -50,6 +51,8 @@ public class CubeController : MonoBehaviour
             rbd.velocity = Vector3.zero;
             gameObject.GetComponent<Renderer>().enabled = false;
             explosion.Play();
+            if (OnGoalReached != null)
+                OnGoalReached();
         }
     }
 }
