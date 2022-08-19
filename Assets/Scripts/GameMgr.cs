@@ -29,7 +29,8 @@ public class GameMgr : MonoBehaviour
         levelEditor = GameObject.FindObjectOfType<LevelEditor>();
         savedBoards = GameObject.FindObjectOfType<SavedBoards>();
         savePath = Application.persistentDataPath + "/SavedStates";
-        levelEditor.savePath = savedBoards.savePath = savePath;
+        levelEditor.savePath =
+            levelLoader.savePath = savedBoards.savePath = savePath;
         savedBoards.gameObject.SetActive(false);
     }
 

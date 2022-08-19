@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class BoardState : MonoBehaviour
+public class BoardState
 {
     public Vector2 selfPos;
     public Vector2 goalPos;

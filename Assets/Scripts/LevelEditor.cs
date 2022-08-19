@@ -13,6 +13,9 @@ public class LevelEditor : MonoBehaviour
     public Text saveBoardError;
     public Action OnObjPlaced;
 
+    [HideInInspector]
+    public string savePath;
+
     GameObject selectedObj = null;
     GameObject hoveredObj = null;
     Camera mainCam;
@@ -22,7 +25,6 @@ public class LevelEditor : MonoBehaviour
     LayerMask grabbableMask;
     Vector3 mousePos;
     bool isPointingFloor;
-    public string savePath;
 
     void Start() {
         mainCam = Camera.main;

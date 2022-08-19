@@ -2,9 +2,17 @@
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        _MainTex("Texture", 2D) = "white" {}
         _HighlightCutOff("Highlight Cut-Off", Float) = 0.6
-        _GradientMod ("Gradient Modulator", Float) = 4
+        _GradientMod("Gradient Modulator", Float) = 4
+
+        _StencilComp("Stencil Comparison", Float) = 8
+        _Stencil("Stencil ID", Float) = 0
+        _StencilOp("Stencil Operation", Float) = 0
+        _StencilWriteMask("Stencil Write Mask", Float) = 255
+        _StencilReadMask("Stencil Read Mask", Float) = 255
+
+        _ColorMask("Color Mask", Float) = 15
     }
     SubShader
     {

@@ -2,10 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelLoader : MonoBehaviour
 {
     public Action OnLevelLoaded;
+
+    [HideInInspector]
+    public string savePath;
 
     GameObject cube;
     GameObject goal;
@@ -41,6 +45,13 @@ public class LevelLoader : MonoBehaviour
         }
         if (OnLevelLoaded != null)
             OnLevelLoaded();
+    }
+
+    public void LoadLevel(Text boardName) {
+        string boardPath = savePath + '/' + boardName.text + ".txt";
+        string boardTxt = System.IO.File.ReadAllText(boardPath);
+        BoardState boardState = BoardState.LoadBoardState(boardTxt);
+        LoadLevel(boardState);
     }
 
     void UnloadBoard() {
