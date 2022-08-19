@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2900431505362429291}
   - component: {fileID: 2900431505362429288}
   - component: {fileID: 2900431505362429289}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Leaf (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 2900431505366554446}
   - component: {fileID: 2900431505366554447}
   - component: {fileID: 2900431505366554444}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 2900431505664412717}
   - component: {fileID: 2900431505664412706}
   - component: {fileID: 2900431505664412707}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Leaf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -290,7 +290,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2900431505745380084}
   - component: {fileID: 1622632961}
-  m_Layer: 0
+  - component: {fileID: 1327521223374654936}
+  - component: {fileID: 261577396635137438}
+  m_Layer: 9
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -330,6 +332,40 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.9, y: 1, z: 0.9}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!54 &1327521223374654936
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2900431505745380085}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &261577396635137438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2900431505745380085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0848585dc628690381a47736b30d61e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderers:
+  - {fileID: 2900431505366554447}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &2900431506196977550
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,7 +378,7 @@ GameObject:
   - component: {fileID: 2900431506196977546}
   - component: {fileID: 2900431506196977547}
   - component: {fileID: 2900431506196977544}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Leaf (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -435,7 +471,7 @@ GameObject:
   - component: {fileID: 2900431506221633135}
   - component: {fileID: 2900431506221633132}
   - component: {fileID: 2900431506221633133}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Leaf (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -528,7 +564,7 @@ GameObject:
   - component: {fileID: 2900431506285911105}
   - component: {fileID: 2900431506285911110}
   - component: {fileID: 2900431506285911111}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Leaf (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

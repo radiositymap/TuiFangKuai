@@ -9,16 +9,19 @@ public class LevelEditor : MonoBehaviour
     public Action OnObjPlaced;
 
     GameObject selectedObj = null;
+    GameObject hoveredObj = null;
     Camera mainCam;
     RaycastHit hit;
     Ray ray;
     LayerMask floorMask;
+    LayerMask grabbableMask;
     Vector3 mousePos;
     bool isPointingFloor;
 
     void Start() {
         mainCam = Camera.main;
         floorMask = LayerMask.GetMask("Floor");
+        grabbableMask = LayerMask.GetMask("Grabbable");
     }
 
     public void SpawnObject(GameObject obj) {
@@ -42,6 +45,21 @@ public class LevelEditor : MonoBehaviour
             mousePos = hit.point;
             if (selectedObj)
                 selectedObj.transform.position = mousePos;
+        }
+        // select board objects
+        if (selectedObj == null &&
+            Physics.Raycast(ray, out hit, 50, grabbableMask)) {
+            Debug.Log("Selected obj: " + hit.collider.transform.root.gameObject.name);
+            hoveredObj = hit.collider.transform.root.gameObject;
+            ObjHighlight highlight = hoveredObj.GetComponent<ObjHighlight>();
+            if (highlight)
+                highlight.Highlight();
+        }
+        else {
+            // clear all highlights
+            ObjHighlight[] highlights = FindObjectsOfType<ObjHighlight>();
+            foreach (ObjHighlight h in highlights)
+                h.Unhighlight();
         }
     }
 

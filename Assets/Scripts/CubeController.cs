@@ -10,6 +10,7 @@ public class CubeController : MonoBehaviour
     Rigidbody rbd;
     Collider collider;
     ParticleSystem explosion;
+    bool isPlayMode = false;
 
     void Awake()
     {
@@ -39,6 +40,9 @@ public class CubeController : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision) {
+        if (!isPlayMode)
+            return;
+
         // reposition
         Vector3 pos = transform.position;
         pos.x = Mathf.Round(pos.x - 0.5f) + 0.5f;
@@ -47,6 +51,9 @@ public class CubeController : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider collider) {
+        if (!isPlayMode)
+            return;
+
         if (collider.gameObject.CompareTag("Goal")) {
             // explode
             rbd.velocity = Vector3.zero;
@@ -58,6 +65,7 @@ public class CubeController : MonoBehaviour
     }
 
     public void StartPlayMode() {
-        collider.enabled = true;
+        isPlayMode = true;
+        collider.isTrigger = false;
     }
 }
