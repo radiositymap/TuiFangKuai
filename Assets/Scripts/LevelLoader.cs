@@ -14,13 +14,11 @@ public class LevelLoader : MonoBehaviour
     GameObject cube;
     GameObject goal;
     GameObject tree;
-    List<GameObject> loadedObjs;
 
     void Start() {
         cube = Resources.Load<GameObject>("Cube");
         goal = Resources.Load<GameObject>("Goal");
         tree = Resources.Load<GameObject>("Tree");
-        loadedObjs = new List<GameObject>();
     }
 
     public void LoadLevel(BoardState state)
@@ -32,16 +30,13 @@ public class LevelLoader : MonoBehaviour
         GameObject boardCube = Instantiate(cube,
             new Vector3(state.selfPos.x, 0f, state.selfPos.y) + offset,
             Quaternion.identity);
-        loadedObjs.Add(boardCube);
         GameObject boardGoal = Instantiate(goal,
             new Vector3(state.goalPos.x, 0f, state.goalPos.y) + offset,
             Quaternion.identity);
-        loadedObjs.Add(boardGoal);
         GameObject boardTree;
         foreach (Vector2 pos in state.treePos) {
             boardTree = Instantiate(tree, new Vector3(pos.x, 0, pos.y) + offset,
                 Quaternion.identity);
-            loadedObjs.Add(boardTree);
         }
         if (OnLevelLoaded != null)
             OnLevelLoaded();
@@ -55,8 +50,11 @@ public class LevelLoader : MonoBehaviour
     }
 
     void UnloadBoard() {
-        foreach (GameObject obj in loadedObjs)
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Tree"))
             Destroy(obj);
-        loadedObjs.Clear();
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Cube"))
+            Destroy(obj);
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Goal"))
+            Destroy(obj);
     }
 }
