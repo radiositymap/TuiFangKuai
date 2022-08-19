@@ -1,0 +1,12 @@
+This is my remake of one of my favourite puzzle games from childhood. Back then, I knew the game as 'Tui Fang Kuai', in Chinese. It was one of the pre-installed games on the Sony Ericsson T100, and I spent a lot of time solving the puzzles, eventually completing all the levels and wishing there were more.
+
+Out of interest, I went on a hunt for its name in English, and found it here  in this review:
+https://www.youtube.com/watch?v=WtXvN3HpOKg
+
+Surprisingly, it is simply listed as 'Q'! I couldn't find very much about this game, but in any case, here is my take.
+
+Credits.
+
+Brick normals are from:
+https://opengameart.org/node/45589
+https://www.benkyoustudio.com/Textures/TexturesBrick/
