@@ -20,6 +20,9 @@ public class CubeController : MonoBehaviour
 
     void Update()
     {
+        if (GameMgr.currMode != GameMgr.GameMode.PlayMode)
+            return;
+
         if (rbd.velocity != Vector3.zero)
             return;
 
