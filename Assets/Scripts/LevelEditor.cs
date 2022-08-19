@@ -7,10 +7,12 @@ using UnityEngine.UI;
 
 public class LevelEditor : MonoBehaviour
 {
+    public EditorMenu editorMenu;
     public GameObject highlight;
     public GameObject boardNameMenu;
     public Text savedBoardName;
     public Text saveBoardError;
+    public Action OnObjPickedUp;
     public Action OnObjPlaced;
 
     [HideInInspector]
@@ -99,6 +101,10 @@ public class LevelEditor : MonoBehaviour
             foreach (ObjHighlight h in highlights)
                 h.Unhighlight();
         }
+        if (GameObject.FindGameObjectsWithTag("Goal").Length > 0)
+            editorMenu.menuBtns[1].interactable = false;
+        if (GameObject.FindGameObjectsWithTag("Cube").Length > 0)
+            editorMenu.menuBtns[2].interactable = false;
     }
 
     void Update() {
@@ -108,8 +114,11 @@ public class LevelEditor : MonoBehaviour
                 highlight.SetActive(false);
 
             // pick up object
-            if (Input.GetMouseButtonUp(0) && hoveredObj != null)
+            if (Input.GetMouseButtonUp(0) && hoveredObj != null) {
                 selectedObj = hoveredObj;
+                if (OnObjPickedUp != null)
+                    OnObjPickedUp();
+            }
         } else {
             // snap to grid
             if (!highlight.activeSelf)

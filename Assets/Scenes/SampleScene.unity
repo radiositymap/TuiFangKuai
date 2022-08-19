@@ -2595,6 +2595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa93e0b36ac7e58da68c1e9fae6c0c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  editorMenu: {fileID: 1964166488}
   highlight: {fileID: 287734384}
   boardNameMenu: {fileID: 383350698}
   savedBoardName: {fileID: 169434215}

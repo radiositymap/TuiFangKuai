@@ -21,6 +21,7 @@ public class EditorMenu : MonoBehaviour
             int idx = i;
             menuBtns[i].onClick.AddListener(()=> OnObjSelected(idx));
         }
+        levelEditor.OnObjPickedUp += delegate { OnObjSelected(-1);};
         removeBtn.onClick.AddListener(ResetMenu);
     }
 
