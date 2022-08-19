@@ -5,7 +5,10 @@ using UnityEngine;
 public class GameMgr : MonoBehaviour
 {
     public GameObject mainMenu;
+    public GameObject editorMenu;
     public GameObject winScreen;
+    public Transform gameModeCamPos;
+    public Transform editorModeCamPos;
 
     int boardSize = 10;
     LevelLoader levelLoader;
@@ -18,10 +21,10 @@ public class GameMgr : MonoBehaviour
     public void LoadRandomLevel() {
         BoardState state = GenerateRandomBoard();
         levelLoader.LoadLevel(state);
+        SetCameraPos(gameModeCamPos);
     }
 
     public BoardState GenerateRandomBoard() {
-
         BoardState state = new BoardState();
         // prevent collisions and ban corners
         List<Vector2> occupiedPos = new List<Vector2>() {
@@ -56,6 +59,13 @@ public class GameMgr : MonoBehaviour
         winScreen.SetActive(true);
     }
 
+    public void StartEditorMode() {
+        StartCoroutine(AnimateCameraTo(editorModeCamPos, 1f));
+        editorMenu.SetActive(true);
+    }
+
+    // helper functions
+
     Vector2 GetRandUniqueVec2(float from, float to, List<Vector2> usedVecs) {
         Vector2 vec;
         do {
@@ -66,5 +76,27 @@ public class GameMgr : MonoBehaviour
         } while (usedVecs.Contains(vec));
         usedVecs.Add(vec);
         return vec;
+    }
+
+    void SetCameraPos(Transform newPos) {
+        Camera.main.transform.position = newPos.position;
+        Camera.main.transform.rotation = newPos.rotation;
+        Camera.main.transform.localEulerAngles = Vector3.zero;
+    }
+
+    IEnumerator AnimateCameraTo(Transform newPos, float duration) {
+        Vector3 fromPos = Camera.main.transform.position;
+        Vector3 toPos =  newPos.position;
+        Quaternion fromRot = Camera.main.transform.rotation;
+        Quaternion toRot = newPos.rotation;
+        float startTime = Time.time;
+        float endTime  = startTime + duration;
+
+        while (Time.time < endTime) {
+            float t = (Time.time - startTime)/duration;
+            Camera.main.transform.position = Vector3.Lerp(fromPos, toPos, t);
+            Camera.main.transform.rotation = Quaternion.Lerp(fromRot, toRot, t);
+            yield return null;
+        }
     }
 }
