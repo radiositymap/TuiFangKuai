@@ -13,9 +13,9 @@ public class SavedBoards : MonoBehaviour
     public void LoadBoardNames() {
         savePath = GameObject.FindObjectOfType<LevelEditor>().savePath;
         Debug.Log(savePath);
-        string[] fileNames = Directory.GetFiles(savePath);
-        foreach (string fileName in fileNames) {
-            Debug.Log(fileName);
+        string[] filePaths = Directory.GetFiles(savePath);
+        foreach (string filePath in filePaths) {
+            string fileName = Path.GetFileName(filePath);
             GameObject file = GameObject.Instantiate(boardItem);
             file.transform.parent = boardItem.transform.parent;
             file.GetComponentInChildren<Text>().text = fileName;

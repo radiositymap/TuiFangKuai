@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class LevelEditor : MonoBehaviour
 {
     public GameObject highlight;
+    public GameObject boardNameMenu;
     public Text savedBoardName;
     public Text saveBoardError;
     public Action OnObjPlaced;
@@ -66,6 +67,7 @@ public class LevelEditor : MonoBehaviour
             StreamWriter writer = new StreamWriter(path, true);
             writer.Write(stateStr);
             writer.Close();
+            boardNameMenu.SetActive(false);
             Debug.Log("Saved board to " + path + "!");
         }
     }
