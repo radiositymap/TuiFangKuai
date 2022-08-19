@@ -4,18 +4,27 @@ using UnityEngine;
 
 public class GameMgr : MonoBehaviour
 {
+    public static GameMode currMode = GameMode.PlayMode;
     public GameObject mainMenu;
     public GameObject editorMenu;
     public GameObject winScreen;
     public Transform gameModeCamPos;
     public Transform editorModeCamPos;
+    public System.Action<GameMode> OnChangedMode;
 
     int boardSize = 10;
     LevelLoader levelLoader;
+    LevelEditor levelEditor;
+
+    public enum GameMode {
+        PlayMode,
+        EditorMode
+    };
 
     void Start() {
         levelLoader = GameObject.FindObjectOfType<LevelLoader>();
         levelLoader.OnLevelLoaded += OnLevelLoaded;
+        levelEditor = GameObject.FindObjectOfType<LevelEditor>();
     }
 
     public void LoadRandomLevel() {
@@ -47,9 +56,12 @@ public class GameMgr : MonoBehaviour
     }
 
     void OnLevelLoaded() {
+        currMode = GameMode.PlayMode;
         CubeController cubeController = FindObjectOfType<CubeController>();
         cubeController.OnGoalReached += OnGoalReached;
         cubeController.StartPlayMode();
+        if (OnChangedMode != null)
+            OnChangedMode(currMode);
     }
 
     void OnGoalReached() {
@@ -63,7 +75,17 @@ public class GameMgr : MonoBehaviour
 
     public void StartEditorMode() {
         StartCoroutine(AnimateCameraTo(editorModeCamPos, 1f));
+        levelEditor.enabled = true;
         editorMenu.SetActive(true);
+        currMode = GameMode.EditorMode;
+        if (OnChangedMode != null)
+            OnChangedMode(currMode);
+    }
+
+    public void ShowMainMenu() {
+        levelEditor.enabled = false;
+        editorMenu.SetActive(false);
+        mainMenu.SetActive(true);
     }
 
     // helper functions
