@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameMgr : MonoBehaviour
 {
-    public CubeController player;
     public GameObject mainMenu;
     public GameObject winScreen;
 
@@ -13,7 +12,7 @@ public class GameMgr : MonoBehaviour
 
     void Start() {
         levelLoader = GameObject.FindObjectOfType<LevelLoader>();
-        player.OnGoalReached += OnGoalReached;
+        levelLoader.OnLevelLoaded += OnLevelLoaded;
     }
 
     public void LoadRandomLevel() {
@@ -24,8 +23,13 @@ public class GameMgr : MonoBehaviour
     public BoardState GenerateRandomBoard() {
 
         BoardState state = new BoardState();
-        // prevent collisions
-        List<Vector2> occupiedPos = new List<Vector2>();
+        // prevent collisions and ban corners
+        List<Vector2> occupiedPos = new List<Vector2>() {
+            new Vector2(0, 0),
+            new Vector2(0, boardSize-1),
+            new Vector2(boardSize-1, 0),
+            new Vector2(boardSize-1, boardSize-1)
+        };
         Vector2 pos;
 
         state.selfPos = GetRandUniqueVec2(1, boardSize-1, occupiedPos);
@@ -37,6 +41,10 @@ public class GameMgr : MonoBehaviour
             state.treePos.Add(GetRandUniqueVec2(1, boardSize-1, occupiedPos));
 
         return state;
+    }
+
+    void OnLevelLoaded() {
+        FindObjectOfType<CubeController>().OnGoalReached += OnGoalReached;
     }
 
     void OnGoalReached() {

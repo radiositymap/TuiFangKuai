@@ -45,7 +45,6 @@ public class CubeController : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider collider) {
-        Debug.Log("Entered collider" + collider.name);
         if (collider.gameObject.CompareTag("Goal")) {
             // explode
             rbd.velocity = Vector3.zero;

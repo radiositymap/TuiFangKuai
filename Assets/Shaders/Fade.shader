@@ -59,20 +59,10 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
-                // sample the texture
-                //fixed4 col = tex2D(_MainTex, i.uv);
+                float dist = distance(i.uv, float2(0.5, 0.5));
+                float fade = pow(1-dist, _GradientMod);
+                fixed4 col = float4(i.colour.rgb, fade);
 
-                // Highlight edges
-                float distFromCtr = pow(abs(i.uv.x - 0.5) * 2, _GradientMod);
-                if (distFromCtr > _HighlightCutOff)
-                    distFromCtr = 1;
-                float distFromCtr2 = pow(abs(i.uv.y - 0.5) * 2, _GradientMod);
-                if (distFromCtr2 > _HighlightCutOff)
-                    distFromCtr2 = 1;
-                //fixed4 col = float4(i.colour.rgb, 1-distFromCtr);
-                fixed4 col1 = (1-distFromCtr) * i.colour + distFromCtr * 3 * i.colour;
-                fixed4 col2 = (1-distFromCtr2) * i.colour + distFromCtr2 * 3 * i.colour;
-                fixed4 col = 0.6 * (col1 + col2);
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;

@@ -66,18 +66,14 @@
                 float distFromCtr = pow(abs(i.uv.x - 0.5) * 2, _GradientMod);
                 if (distFromCtr > _HighlightCutOff)
                     distFromCtr = 1;
-                //if (distFromCtr < 0.1)
-                //    distFromCtr = 0;
                 float distFromCtr2 = pow(abs(i.uv.y - 0.5) * 2, _GradientMod);
                 if (distFromCtr2 > _HighlightCutOff)
                     distFromCtr2 = 1;
-                //if (distFromCtr2 < 0.1)
-                //    distFromCtr2 = 0;
                 fixed4 col1 = (1-distFromCtr) * _Albedo + distFromCtr * _Highlight;
                 fixed4 col2 = (1-distFromCtr2) * _Albedo + distFromCtr2 * _Highlight;
                 fixed4 col = 0.8 * (col1 + col2);
 
-                //TODO some spots or streaks
+                // add some spots
                 float2 spots[15];
                 for (int j=0; j<15; j++) {
                     spots[j] = 0.7 * float2(
@@ -97,12 +93,7 @@
                     if (distance(spots[j], i.uv) < spotSize)
                         col = lerp(col, fixed4(1,1,1,1), sinTime * sinTime);
                 }
-                //float2 spot = float2(random(i.uv), random(i.uv * _Time.x));
-                //if (distance(spot, i.uv) < 0.05)
-                //    col = fixed4(_SinTime.w, _SinTime.w, _SinTime.w, 1.0);
 
-                // sample the texture
-                //fixed4 col = tex2D(_MainTex, i.uv);
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
