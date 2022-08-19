@@ -17,23 +17,32 @@ public class GameMgr : MonoBehaviour
     }
 
     public BoardState GenerateRandomBoard() {
+
         BoardState state = new BoardState();
-        state.selfPos = new Vector2(
-            (int)(Random.Range(0, boardSize)),
-            (int)(Random.Range(0, boardSize))
-        );
-        state.goalPos = new Vector2(
-            (int)(Random.Range(0, boardSize)),
-            (int)(Random.Range(0, boardSize))
-        );
-        int numTrees = (int)Random.Range(3, 8f);
+        // prevent collisions
+        List<Vector2> occupiedPos = new List<Vector2>();
+        Vector2 pos;
+
+        state.selfPos = GetRandUniqueVec2(1, boardSize-1, occupiedPos);
+        state.goalPos = GetRandUniqueVec2(0, boardSize, occupiedPos);
+
+        int numTrees = (int)Random.Range(5f, 10f);
         state.treePos = new List<Vector2>();
-        for (int i=0; i<numTrees; i++) {
-            state.treePos.Add(new Vector2(
-                (int)(Random.Range(1f, boardSize-1)),
-                (int)(Random.Range(1f, boardSize-1))
-            ));
-        }
+        for (int i=0; i<numTrees; i++)
+            state.treePos.Add(GetRandUniqueVec2(1, boardSize-1, occupiedPos));
+
         return state;
+    }
+
+    Vector2 GetRandUniqueVec2(float from, float to, List<Vector2> usedVecs) {
+        Vector2 vec;
+        do {
+            vec = new Vector2(
+                (int)(Random.Range(from, to)),
+                (int)(Random.Range(from, to))
+            );
+        } while (usedVecs.Contains(vec));
+        usedVecs.Add(vec);
+        return vec;
     }
 }
