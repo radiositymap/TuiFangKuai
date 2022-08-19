@@ -11,10 +11,12 @@ public class GameMgr : MonoBehaviour
     public Transform gameModeCamPos;
     public Transform editorModeCamPos;
     public System.Action<GameMode> OnChangedMode;
+    public string savePath;
 
     int boardSize = 10;
     LevelLoader levelLoader;
     LevelEditor levelEditor;
+    SavedBoards savedBoards;
 
     public enum GameMode {
         PlayMode,
@@ -25,6 +27,10 @@ public class GameMgr : MonoBehaviour
         levelLoader = GameObject.FindObjectOfType<LevelLoader>();
         levelLoader.OnLevelLoaded += OnLevelLoaded;
         levelEditor = GameObject.FindObjectOfType<LevelEditor>();
+        savedBoards = GameObject.FindObjectOfType<SavedBoards>();
+        savePath = Application.persistentDataPath + "/SavedStates";
+        levelEditor.savePath = savedBoards.savePath = savePath;
+        savedBoards.gameObject.SetActive(false);
     }
 
     public void LoadRandomLevel() {

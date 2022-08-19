@@ -3,10 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelEditor : MonoBehaviour
 {
     public GameObject highlight;
+    public Text savedBoardName;
+    public Text saveBoardError;
     public Action OnObjPlaced;
 
     GameObject selectedObj = null;
@@ -18,6 +21,7 @@ public class LevelEditor : MonoBehaviour
     LayerMask grabbableMask;
     Vector3 mousePos;
     bool isPointingFloor;
+    public string savePath;
 
     void Start() {
         mainCam = Camera.main;
@@ -54,10 +58,16 @@ public class LevelEditor : MonoBehaviour
                 tree.transform.position.x, tree.transform.position.z));
         }
         string stateStr = boardState.SerialiseBoardState();
-        string path = "Assets/Resources/state.txt";
-        StreamWriter writer = new StreamWriter(path, true);
-        writer.Write(stateStr);
-        writer.Close();
+        Directory.CreateDirectory(savePath);
+        if (savedBoardName.text == null || savedBoardName.text.Length <= 0)
+            saveBoardError.text = "Cannot save with empty board name!";
+        else {
+            string path = savePath + "/" + savedBoardName.text + ".txt";
+            StreamWriter writer = new StreamWriter(path, true);
+            writer.Write(stateStr);
+            writer.Close();
+            Debug.Log("Saved board to " + path + "!");
+        }
     }
 
     void FixedUpdate()
