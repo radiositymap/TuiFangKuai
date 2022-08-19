@@ -4,23 +4,20 @@ using UnityEngine;
 
 public class LevelLoader : MonoBehaviour
 {
+    public GameObject self;
+    public GameObject goal;
     public GameObject tree;
 
-    List<Vector2> treePos;
-
-    void Start()
+    public void LoadLevel(BoardState state)
     {
-        treePos = new List<Vector2>()
-        {
-            new Vector2(1f,3f),
-            new Vector2(2f,3f),
-            new Vector2(6f,2f),
-            new Vector2(5f,5f),
-        };
-
         // load board
-        foreach (Vector2 pos in treePos) {
-            Instantiate(tree, new Vector3(pos.x - 4.5f, 0f, pos.y - 4.5f),
+        Vector3 offset = new Vector3(-4.5f, 0, -4.5f);
+        self.transform.position =
+            new Vector3(state.selfPos.x, 0.5f, state.selfPos.y) + offset;
+        goal.transform.position =
+            new Vector3(state.goalPos.x, 0.52f, state.goalPos.y) + offset;
+        foreach (Vector2 pos in state.treePos) {
+            Instantiate(tree, new Vector3(pos.x, 0, pos.y) + offset,
                 Quaternion.identity);
         }
     }
