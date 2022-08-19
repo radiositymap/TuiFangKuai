@@ -27,11 +27,8 @@ public class ObjHighlight : MonoBehaviour
 
     public void Unhighlight() {
         if (isHighlighted) {
-            for (int i=0; i<renderers.Length; i++) {
-                Debug.Log(renderers[i]);
-                Debug.Log(originalMats[i]);
+            for (int i=0; i<renderers.Length; i++)
                 renderers[i].sharedMaterial = originalMats[i];
-            }
             isHighlighted = false;
         }
     }

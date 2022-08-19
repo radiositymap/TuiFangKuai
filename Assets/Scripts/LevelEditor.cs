@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class LevelEditor : MonoBehaviour
@@ -36,6 +37,29 @@ public class LevelEditor : MonoBehaviour
         Destroy(selectedObj);
     }
 
+    public void SaveBoard() {
+        GameObject cube = GameObject.FindGameObjectWithTag("Cube");
+        GameObject goal = GameObject.FindGameObjectWithTag("Goal");
+        GameObject[] trees = GameObject.FindGameObjectsWithTag("Tree");
+
+        Vector2 offset = new Vector2(4.5f, 4.5f);
+        BoardState boardState = new BoardState();
+        boardState.selfPos = offset +
+            new Vector2(cube.transform.position.x, cube.transform.position.z);
+        boardState.goalPos = offset +
+            new Vector2(goal.transform.position.x, goal.transform.position.z);
+        boardState.treePos = new List<Vector2>();
+        foreach (GameObject tree in trees) {
+            boardState.treePos.Add(offset + new Vector2(
+                tree.transform.position.x, tree.transform.position.z));
+        }
+        string stateStr = boardState.SerialiseBoardState();
+        string path = "Assets/Resources/state.txt";
+        StreamWriter writer = new StreamWriter(path, true);
+        writer.Write(stateStr);
+        writer.Close();
+    }
+
     void FixedUpdate()
     {
         // find mouse point on floor
@@ -49,13 +73,13 @@ public class LevelEditor : MonoBehaviour
         // select board objects
         if (selectedObj == null &&
             Physics.Raycast(ray, out hit, 50, grabbableMask)) {
-            Debug.Log("Selected obj: " + hit.collider.transform.root.gameObject.name);
             hoveredObj = hit.collider.transform.root.gameObject;
             ObjHighlight highlight = hoveredObj.GetComponent<ObjHighlight>();
             if (highlight)
                 highlight.Highlight();
         }
         else {
+            hoveredObj = null;
             // clear all highlights
             ObjHighlight[] highlights = FindObjectsOfType<ObjHighlight>();
             foreach (ObjHighlight h in highlights)
@@ -65,25 +89,30 @@ public class LevelEditor : MonoBehaviour
 
     void Update() {
         if (selectedObj == null) {
+            // turn off grid highlight
             if (highlight.activeSelf)
                 highlight.SetActive(false);
-            return;
-        }
 
-        // snap to grid
-        if (!highlight.activeSelf)
-            highlight.SetActive(true);
-        highlight.transform.position = new Vector3(
-            Mathf.Round(mousePos.x + 0.5f) - 0.5f,
-            0.01f,
-            Mathf.Round(mousePos.z + 0.5f) - 0.5f
-        );
+            // pick up object
+            if (Input.GetMouseButtonUp(0) && hoveredObj != null)
+                selectedObj = hoveredObj;
+        } else {
+            // snap to grid
+            if (!highlight.activeSelf)
+                highlight.SetActive(true);
+            highlight.transform.position = new Vector3(
+                Mathf.Round(mousePos.x + 0.5f) - 0.5f,
+                0.01f,
+                Mathf.Round(mousePos.z + 0.5f) - 0.5f
+            );
 
-        if (Input.GetMouseButtonUp(0) && isPointingFloor) {
-            selectedObj.transform.position = highlight.transform.position;
-            selectedObj = null;
-            if (OnObjPlaced != null)
-                OnObjPlaced();
+            // drop object
+            if (Input.GetMouseButtonUp(0) && isPointingFloor) {
+                selectedObj.transform.position = highlight.transform.position;
+                selectedObj = null;
+                if (OnObjPlaced != null)
+                    OnObjPlaced();
+            }
         }
     }
 }

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Goal
   - Wall
+  - Cube
+  - Tree
   layers:
   - Default
   - TransparentFX
