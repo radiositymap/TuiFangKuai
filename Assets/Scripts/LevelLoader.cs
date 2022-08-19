@@ -26,11 +26,11 @@ public class LevelLoader : MonoBehaviour
         // load board
         Vector3 offset = new Vector3(-4.5f, 0, -4.5f);
         GameObject boardCube = Instantiate(cube,
-            new Vector3(state.selfPos.x, 0.5f, state.selfPos.y) + offset,
+            new Vector3(state.selfPos.x, 0f, state.selfPos.y) + offset,
             Quaternion.identity);
         loadedObjs.Add(boardCube);
         GameObject boardGoal = Instantiate(goal,
-            new Vector3(state.goalPos.x, 0.52f, state.goalPos.y) + offset,
+            new Vector3(state.goalPos.x, 0f, state.goalPos.y) + offset,
             Quaternion.identity);
         loadedObjs.Add(boardGoal);
         GameObject boardTree;

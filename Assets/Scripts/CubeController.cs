@@ -8,11 +8,13 @@ public class CubeController : MonoBehaviour
     public float force = 3f;
     public Action OnGoalReached;
     Rigidbody rbd;
+    Collider collider;
     ParticleSystem explosion;
 
-    void Start()
+    void Awake()
     {
         rbd = GetComponent<Rigidbody>();
+        collider = GetComponent<Collider>();
         explosion = GetComponentInChildren<ParticleSystem>();
     }
 
@@ -53,5 +55,9 @@ public class CubeController : MonoBehaviour
             if (OnGoalReached != null)
                 OnGoalReached();
         }
+    }
+
+    public void StartPlayMode() {
+        collider.enabled = true;
     }
 }

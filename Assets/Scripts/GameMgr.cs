@@ -47,7 +47,9 @@ public class GameMgr : MonoBehaviour
     }
 
     void OnLevelLoaded() {
-        FindObjectOfType<CubeController>().OnGoalReached += OnGoalReached;
+        CubeController cubeController = FindObjectOfType<CubeController>();
+        cubeController.OnGoalReached += OnGoalReached;
+        cubeController.StartPlayMode();
     }
 
     void OnGoalReached() {
@@ -81,7 +83,6 @@ public class GameMgr : MonoBehaviour
     void SetCameraPos(Transform newPos) {
         Camera.main.transform.position = newPos.position;
         Camera.main.transform.rotation = newPos.rotation;
-        Camera.main.transform.localEulerAngles = Vector3.zero;
     }
 
     IEnumerator AnimateCameraTo(Transform newPos, float duration) {
