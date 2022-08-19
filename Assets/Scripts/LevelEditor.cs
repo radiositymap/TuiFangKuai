@@ -116,10 +116,21 @@ public class LevelEditor : MonoBehaviour
             // pick up object
             if (Input.GetMouseButtonUp(0) && hoveredObj != null) {
                 selectedObj = hoveredObj;
-                if (OnObjPickedUp != null)
-                    OnObjPickedUp();
+
+                // set highlight back to active
+                Highlight h = highlight.GetComponent<Highlight>();
+                if (selectedObj.tag == "Tree" || selectedObj.tag == "Cube")
+                    h.UseFloorHighlight();
+                else
+                    h.UseWallHighlight();
             }
         } else {
+            // TODO prevent invalid object placement
+            if (selectedObj.tag == "Tree" || selectedObj.tag == "Cube")
+            {
+                Highlight h = highlight.GetComponent<Highlight>();
+                h.SetHighlightColour(!h.isInWall);
+            }
             // snap to grid
             if (!highlight.activeSelf)
                 highlight.SetActive(true);

@@ -87,6 +87,6 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Albedo: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.70127267, g: 0.91076493, b: 0.9716981, a: 1}
+    - _Color: {r: 0.4764151, g: 0.98919004, b: 1, a: 0.59607846}
     - _EmissionColor: {r: 0, g: 0.26496944, b: 0.3584906, a: 1}
     - _SpecularColour: {r: 1, g: 1, b: 1, a: 1}

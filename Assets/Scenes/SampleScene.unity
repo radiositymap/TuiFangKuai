@@ -788,6 +788,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac88614def10fcf86bdc2c7b8ce63c08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  validColour: {r: 0.6462264, g: 0.99230933, b: 1, a: 0.8352941}
+  invalidColour: {r: 1, g: 0.65882355, b: 0.75807023, a: 0.83137256}
+  isInWall: 0
 --- !u!23 &287734387
 MeshRenderer:
   m_ObjectHideFlags: 0
