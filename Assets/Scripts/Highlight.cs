@@ -7,7 +7,6 @@ public class Highlight : MonoBehaviour
 {
     public Color validColour;
     public Color invalidColour;
-    public bool isInWall = false;
     Renderer rend;
     GameObject cubeHighlight;
     GameMgr gameManager;
@@ -29,7 +28,6 @@ public class Highlight : MonoBehaviour
     public void UseWallHighlight() {
         rend.enabled = false;
         cubeHighlight.SetActive(true);
-        isInWall = true;
     }
 
     void OnTriggerEnter(Collider collider) {
@@ -44,7 +42,6 @@ public class Highlight : MonoBehaviour
     public void UseFloorHighlight() {
         cubeHighlight.SetActive(false);
         rend.enabled = true;
-        isInWall = false;
     }
 
     void OnTriggerExit(Collider collider) {

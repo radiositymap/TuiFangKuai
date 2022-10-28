@@ -754,7 +754,7 @@ GameObject:
   - component: {fileID: 287734389}
   - component: {fileID: 287734386}
   - component: {fileID: 287734390}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Highlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -790,7 +790,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   validColour: {r: 0.6462264, g: 0.99230933, b: 1, a: 0.8352941}
   invalidColour: {r: 1, g: 0.65882355, b: 0.75807023, a: 0.83137256}
-  isInWall: 0
 --- !u!23 &287734387
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5590,7 +5589,7 @@ GameObject:
   - component: {fileID: 1806337176}
   - component: {fileID: 1806337179}
   - component: {fileID: 1806337178}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CubeHighlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
