@@ -81,6 +81,7 @@ public class GameMgr : MonoBehaviour
     }
 
     public void StartEditorMode() {
+        levelLoader.UnloadBoard();
         StartCoroutine(AnimateCameraTo(editorModeCamPos, 1f));
         levelEditor.enabled = true;
         editorMenu.SetActive(true);

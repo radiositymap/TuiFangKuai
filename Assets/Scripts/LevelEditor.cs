@@ -142,8 +142,6 @@ public class LevelEditor : MonoBehaviour
                 // raycast from top to avoid other colliders
                 if (Physics.Raycast(highlight.transform.position +
                     new Vector3(0, 2, 0), Vector3.down, out hit, 5, objMask)) {
-                    Debug.DrawRay(highlight.transform.position +
-                    new Vector3(0,2,0), Vector3.down*5, Color.cyan);
                     canPlaceObj = !(hit.collider.CompareTag("Wall") ||
                         hit.collider.CompareTag("Cube") ||
                         hit.collider.CompareTag("Tree") ||

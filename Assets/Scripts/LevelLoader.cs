@@ -49,7 +49,7 @@ public class LevelLoader : MonoBehaviour
         LoadLevel(boardState);
     }
 
-    void UnloadBoard() {
+    public void UnloadBoard() {
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Tree"))
             Destroy(obj);
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Cube"))
