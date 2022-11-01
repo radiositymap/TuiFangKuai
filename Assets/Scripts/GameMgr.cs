@@ -63,6 +63,7 @@ public class GameMgr : MonoBehaviour
     }
 
     void OnLevelLoaded() {
+        SetCameraPos(gameModeCamPos);
         currMode = GameMode.PlayMode;
         CubeController cubeController = FindObjectOfType<CubeController>();
         cubeController.OnGoalReached += OnGoalReached;
