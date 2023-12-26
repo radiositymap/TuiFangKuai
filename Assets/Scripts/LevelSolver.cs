@@ -122,16 +122,35 @@ public class LevelSolver : MonoBehaviour
             Node selfNode =
                 graph.GetNode((int)state.selfPos.x, (int)state.selfPos.y);
             currentNode = selfNode;
+            List<Vector2> path = new List<Vector2>();
             while (currentNode != null &&
                 !(currentNode.xPos == goalPos.x && currentNode.yPos == goalPos.y)) {
                 Debug.Log("Path: " + currentNode.xPos + " " + currentNode.yPos);
+                path.Add(new Vector2(currentNode.xPos, currentNode.yPos));
                 if (currentNode.prevNode != null) {
                     currentNode = currentNode.prevNode;
                 }
             }
+            path.Add(goalPos);
+            StartCoroutine(PlayBackSolution(path));
         }
         else {
             Debug.Log("No solution");
+        }
+    }
+
+    IEnumerator PlayBackSolution(List<Vector2> path) {
+        CubeController cubeController = FindObjectOfType<CubeController>();
+        for (int i=1; i<path.Count; i++) {
+            if (path[i].x < path[i-1].x)
+                cubeController.SimulateMotion(-1, 0);
+            else if (path[i].x > path[i-1].x)
+                cubeController.SimulateMotion(1, 0);
+            else if (path[i].y < path[i-1].y)
+                cubeController.SimulateMotion(0, -1);
+            else if (path[i].y > path[i-1].y)
+                cubeController.SimulateMotion(0, 1);
+            yield return new WaitForSeconds(2.0f);
         }
     }
 }
