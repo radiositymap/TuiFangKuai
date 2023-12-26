@@ -6,19 +6,6 @@ public class LevelSolver : MonoBehaviour
 {
     int boardSize;
 
-    // Test
-    void Start() {
-        BoardState state = new BoardState();
-        state.selfPos = new Vector2(1,1);
-        state.goalPos = new Vector2(3,2);
-        //state.goalPos = new Vector2(4,2); // TODO doesn't work with wall
-        state.treePos = new List<Vector2>() {
-            new Vector2(3, 1),
-            new Vector2(2, 3),
-        };
-        SolveLevel(state, 5);
-    }
-
     public void SolveLevel(BoardState state, int size) {
         // Build graph
         boardSize = size;
@@ -33,80 +20,67 @@ public class LevelSolver : MonoBehaviour
             }
         }
         // Make edges
+        Vector2 goalPos = state.goalPos;
         foreach (KeyValuePair<int, Node> item in graph.nodes) {
             Node node = item.Value;
             if (node.xPos == 0 || node.xPos == boardSize-1 ||
                 node.yPos == 0 || node.yPos == boardSize-1)
                 continue;
 
+            // border limit
+            int leftLimit =
+                node.yPos == goalPos.y && goalPos.x == 0 ? (int)goalPos.x: 1;
+            int rightLimit =
+                node.yPos == goalPos.y && goalPos.x == boardSize-1 ?
+                boardSize-1: boardSize-2;
+            int topLimit =
+                node.xPos == goalPos.x && goalPos.y == 0 ? (int)goalPos.y : 1;
+            int bottomLimit =
+                node.xPos == goalPos.x && goalPos.y == boardSize-1 ?
+                boardSize-1: boardSize-2;
+
             // left
             int xPos = node.xPos;
-            while (xPos >= 2 &&
+            while (xPos > leftLimit &&
                 !state.treePos.Contains(new Vector2(xPos-1, node.yPos))) {
                     xPos--;
+                    if (xPos == goalPos.x && node.yPos == goalPos.y)
+                        break;
             }
-            if (xPos != node.xPos)
+            if (xPos != node.xPos) {
                 graph.GetNode(xPos, node.yPos)?.neighbours.Add(node);
+            }
 
             // right
             xPos = node.xPos;
-            while (xPos < boardSize - 2 &&
+            while (xPos < rightLimit &&
                 !state.treePos.Contains(new Vector2(xPos+1, node.yPos))) {
                     xPos++;
+                    if (xPos == goalPos.x && node.yPos == goalPos.y)
+                        break;
             }
             if (xPos != node.xPos)
                 graph.GetNode(xPos, node.yPos)?.neighbours.Add(node);
             // up
             int yPos = node.yPos;
-            while (yPos >= 2 &&
+            while (yPos > topLimit &&
                 !state.treePos.Contains(new Vector2(node.xPos, yPos-1))) {
                     yPos--;
+                    if (yPos == goalPos.y && node.xPos == goalPos.x)
+                        break;
             }
             if (yPos != node.yPos)
                 graph.GetNode(node.xPos, yPos)?.neighbours.Add(node);
             // down
             yPos = node.yPos;
-            while (yPos < boardSize - 2 &&
+            while (yPos < bottomLimit &&
                 !state.treePos.Contains(new Vector2(node.xPos, yPos+1))) {
                     yPos++;
+                    if (yPos == goalPos.y && node.xPos == goalPos.x)
+                        break;
             }
             if (yPos != node.yPos)
                 graph.GetNode(node.xPos, yPos)?.neighbours.Add(node);
-        }
-
-        // Handle goal in wall
-        Vector2 goalPos = state.goalPos;
-        if ((goalPos.x == 0 || goalPos.x == boardSize) &&
-            (goalPos.y == 0 || goalPos.y == boardSize)) {
-            if (goalPos.x == 0) {
-                if (goalPos.y == 0 || goalPos.y == boardSize)
-                    Debug.Log("No solution");
-            }
-            else if (goalPos.x == boardSize) {
-                if (goalPos.y == 0 || goalPos.y == boardSize)
-                    Debug.Log("No solution");
-            }
-            Node goalNode = graph.GetNode((int)goalPos.x, (int)goalPos.y);
-            if (goalPos.x == 0) {
-                if (state.treePos.Contains(new Vector2(1, goalPos.y)))
-                    Debug.Log("No solution");
-                graph.GetNode(1, (int)goalPos.y).neighbours.Add(goalNode);
-            }
-            if (goalPos.y == 0) {
-                if (state.treePos.Contains(new Vector2(goalPos.x, 1)))
-                    Debug.Log("No solution");
-                graph.GetNode((int)goalPos.x, 1).neighbours.Add(goalNode);
-            }
-            if (goalPos.x == boardSize-1) {
-                if (state.treePos.Contains(new Vector2(boardSize-2, goalPos.y)))
-                    Debug.Log("No solution");
-                graph.GetNode(boardSize-2, (int)goalPos.y).neighbours.Add(goalNode);
-            }
-            if (goalPos.y == boardSize-1) {
-                if (state.treePos.Contains(new Vector2(goalPos.x, boardSize-2)))
-                    Debug.Log("No solution");
-                graph.GetNode((int)goalPos.x, boardSize-2).neighbours.Add(goalNode);
-            }
         }
 
         //foreach (KeyValuePair<int, Node> item in graph.nodes) {
@@ -155,6 +129,9 @@ public class LevelSolver : MonoBehaviour
                     currentNode = currentNode.prevNode;
                 }
             }
+        }
+        else {
+            Debug.Log("No solution");
         }
     }
 }

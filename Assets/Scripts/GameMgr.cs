@@ -16,7 +16,9 @@ public class GameMgr : MonoBehaviour
     int boardSize = 10;
     LevelLoader levelLoader;
     LevelEditor levelEditor;
+    LevelSolver levelSolver;
     SavedBoards savedBoards;
+    BoardState currentState;
 
     public enum GameMode {
         PlayMode,
@@ -27,6 +29,7 @@ public class GameMgr : MonoBehaviour
         levelLoader = GameObject.FindObjectOfType<LevelLoader>();
         levelLoader.OnLevelLoaded += OnLevelLoaded;
         levelEditor = GameObject.FindObjectOfType<LevelEditor>();
+        levelSolver = GameObject.FindObjectOfType<LevelSolver>();
         savedBoards = GameObject.FindObjectOfType<SavedBoards>();
         savePath = Application.persistentDataPath + "/SavedStates";
         levelEditor.savePath =
@@ -34,9 +37,15 @@ public class GameMgr : MonoBehaviour
         savedBoards.gameObject.SetActive(false);
     }
 
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.K)) {
+            levelSolver.SolveLevel(currentState, boardSize);
+        }
+    }
+
     public void LoadRandomLevel() {
-        BoardState state = GenerateRandomBoard();
-        levelLoader.LoadLevel(state);
+        currentState = GenerateRandomBoard();
+        levelLoader.LoadLevel(currentState);
         SetCameraPos(gameModeCamPos);
     }
 
