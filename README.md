@@ -12,11 +12,11 @@ Surprisingly, it is simply listed as 'Q'! I couldn't find very much about this g
 
 The original 'Q' game, charming as it was, ran on a black-and-white LCD screen.
 
-I've given it a major upgrade, moving from 2D to 3D graphics, and using physics for movement.
-
-Now with colours as well, the lighting and effects are mostly done with custom shaders.
+I've given it a major upgrade, moving from 2D to 3D graphics, and using physics for movement. The lighting and visual effects are mostly done with custom shaders.
 
 I've also added an editor, which I don't remember the original game having. You can save and load custom levels.
+
+There is also a built-in solver which solves the level automatically. I used this to generate only valid puzzles with a minimum number of steps in the solution. It will also provide feedback if there is no solution (for user-generated puzzles).
 
 ### Demo
 

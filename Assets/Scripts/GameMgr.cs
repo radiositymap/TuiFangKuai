@@ -16,6 +16,7 @@ public class GameMgr : MonoBehaviour
     public string savePath;
 
     int boardSize = 10;
+    int minSteps = 8;
     LevelLoader levelLoader;
     LevelEditor levelEditor;
     LevelSolver levelSolver;
@@ -41,7 +42,8 @@ public class GameMgr : MonoBehaviour
 
     public void SolveCurrentLevel() {
         ResetSelf();
-        bool hasSolution = levelSolver.SolveLevel(currentState, boardSize);
+        bool hasSolution =
+            levelSolver.SolveLevel(currentState, boardSize, true) > 0;
         if (!hasSolution)
             errorMessage.SetActive(true);
     }
@@ -52,6 +54,8 @@ public class GameMgr : MonoBehaviour
 
     public void LoadRandomLevel() {
         BoardState randomBoard = GenerateRandomBoard();
+        while (levelSolver.SolveLevel(randomBoard, boardSize) < minSteps)
+            randomBoard = GenerateRandomBoard();
         levelLoader.LoadLevel(randomBoard);
         SetCameraPos(gameModeCamPos);
     }
