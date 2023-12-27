@@ -12,14 +12,14 @@ public class CubeController : MonoBehaviour
     ParticleSystem explosion;
     float x;
     float z;
-    bool customMotion;
+    Queue<Vector2> motionQueue;
 
     void Awake()
     {
         rbd = GetComponent<Rigidbody>();
         collider = GetComponent<Collider>();
         explosion = GetComponentInChildren<ParticleSystem>();
-        customMotion = false;
+        motionQueue = new Queue<Vector2>();
     }
 
     void Update()
@@ -30,8 +30,11 @@ public class CubeController : MonoBehaviour
         if (rbd.velocity != Vector3.zero)
             return;
 
-        if (customMotion)
-            customMotion = false;
+        if (motionQueue.Count > 0) {
+            Vector2 motion = motionQueue.Dequeue();
+            x = motion.x;
+            z = motion.y;
+        }
         else {
             x = Input.GetAxis("Horizontal");
             z = Input.GetAxis("Vertical");
@@ -79,8 +82,6 @@ public class CubeController : MonoBehaviour
     }
 
     public void SimulateMotion(float xMotion, float zMotion) {
-        x = xMotion;
-        z = zMotion;
-        customMotion = true;
+        motionQueue.Enqueue(new Vector2(xMotion, zMotion));
     }
 }

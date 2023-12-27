@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class LevelEditor : MonoBehaviour
@@ -82,6 +83,9 @@ public class LevelEditor : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
         // find mouse point on floor
         ray = mainCam.ScreenPointToRay(Input.mousePosition);
         isPointingFloor = Physics.Raycast(ray, out hit, 50, floorMask);

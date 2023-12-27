@@ -44,8 +44,8 @@ public class GameMgr : MonoBehaviour
     }
 
     public void LoadRandomLevel() {
-        currentState = GenerateRandomBoard();
-        levelLoader.LoadLevel(currentState);
+        BoardState randomBoard = GenerateRandomBoard();
+        levelLoader.LoadLevel(randomBoard);
         SetCameraPos(gameModeCamPos);
     }
 
@@ -71,9 +71,10 @@ public class GameMgr : MonoBehaviour
         return state;
     }
 
-    void OnLevelLoaded() {
+    void OnLevelLoaded(BoardState state) {
         SetCameraPos(gameModeCamPos);
         currMode = GameMode.PlayMode;
+        currentState = state;
         CubeController cubeController = FindObjectOfType<CubeController>();
         cubeController.OnGoalReached += OnGoalReached;
         cubeController.StartPlayMode();

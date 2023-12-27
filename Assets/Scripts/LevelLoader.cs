@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class LevelLoader : MonoBehaviour
 {
-    public Action OnLevelLoaded;
+    public Action<BoardState> OnLevelLoaded;
 
     [HideInInspector]
     public string savePath;
@@ -39,7 +39,7 @@ public class LevelLoader : MonoBehaviour
                 Quaternion.identity);
         }
         if (OnLevelLoaded != null)
-            OnLevelLoaded();
+            OnLevelLoaded(state);
     }
 
     public void LoadLevel(Text boardName) {

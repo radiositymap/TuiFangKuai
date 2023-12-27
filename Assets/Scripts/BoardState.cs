@@ -14,6 +14,10 @@ public class BoardState
         return JsonUtility.FromJson<BoardState>(jsonString);
     }
 
+    public bool HasTree(int x, int y) {
+        return treePos.Contains(new Vector2(x, y));
+    }
+
     public string SerialiseBoardState() {
         return JsonUtility.ToJson(this);
     }
