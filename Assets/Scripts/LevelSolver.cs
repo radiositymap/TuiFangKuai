@@ -6,7 +6,7 @@ public class LevelSolver : MonoBehaviour
 {
     int boardSize;
 
-    public void SolveLevel(BoardState state, int size) {
+    public bool SolveLevel(BoardState state, int size) {
         // Build graph
         boardSize = size;
         Graph graph = new Graph(size);
@@ -118,9 +118,7 @@ public class LevelSolver : MonoBehaviour
             path.Add(goalPos);
             PlayBackSolution(path);
         }
-        else {
-            Debug.Log("No solution");
-        }
+        return foundPlayer;
     }
 
     void PlayBackSolution(List<Vector2Int> path) {

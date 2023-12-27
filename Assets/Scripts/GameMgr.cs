@@ -8,6 +8,8 @@ public class GameMgr : MonoBehaviour
     public GameObject mainMenu;
     public GameObject editorMenu;
     public GameObject winScreen;
+    public GameObject levelMenu;
+    public GameObject errorMessage;
     public Transform gameModeCamPos;
     public Transform editorModeCamPos;
     public System.Action<GameMode> OnChangedMode;
@@ -37,10 +39,15 @@ public class GameMgr : MonoBehaviour
         savedBoards.gameObject.SetActive(false);
     }
 
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.K)) {
-            levelSolver.SolveLevel(currentState, boardSize);
-        }
+    public void SolveCurrentLevel() {
+        ResetSelf();
+        bool hasSolution = levelSolver.SolveLevel(currentState, boardSize);
+        if (!hasSolution)
+            errorMessage.SetActive(true);
+    }
+
+    public void ResetSelf() {
+        levelLoader.LoadLevel(currentState);
     }
 
     public void LoadRandomLevel() {
@@ -78,6 +85,8 @@ public class GameMgr : MonoBehaviour
         CubeController cubeController = FindObjectOfType<CubeController>();
         cubeController.OnGoalReached += OnGoalReached;
         cubeController.StartPlayMode();
+        levelMenu.SetActive(true);
+        errorMessage.SetActive(false);
         if (OnChangedMode != null)
             OnChangedMode(currMode);
     }
@@ -88,6 +97,7 @@ public class GameMgr : MonoBehaviour
 
     IEnumerator ShowWinScreen() {
         yield return new WaitForSeconds(1.0f);
+        levelMenu.SetActive(false);
         winScreen.SetActive(true);
     }
 
@@ -95,6 +105,7 @@ public class GameMgr : MonoBehaviour
         levelLoader.UnloadBoard();
         StartCoroutine(AnimateCameraTo(editorModeCamPos, 1f));
         levelEditor.enabled = true;
+        levelMenu.SetActive(false);
         editorMenu.SetActive(true);
         currMode = GameMode.EditorMode;
         if (OnChangedMode != null)
